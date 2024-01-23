@@ -3,6 +3,8 @@ package com.wellpereiradevs.stock_china.controller;
 import com.wellpereiradevs.stock_china.model.Products;
 import com.wellpereiradevs.stock_china.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +22,9 @@ public class ProductController {
     }
 
     @PostMapping
-    public Products createProducts(@RequestBody Products products) {
-        return productRepository.save(products);
+    public ResponseEntity<Products> createProducts(@RequestBody Products products) {
+        Products createdProduct = productRepository.save(products);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
