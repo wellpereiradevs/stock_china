@@ -28,9 +28,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Products updateProducts(@PathVariable Long id, @RequestBody Products products) {
+    public ResponseEntity<Products> updateProducts(@PathVariable Long id, @RequestBody Products products) {
+        if (!productRepository.existsById(id)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
         products.setId(id);
-        return productRepository.save(products);
+        Products updatedProduct = productRepository.save(products);
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
