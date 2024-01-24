@@ -17,8 +17,14 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping
-    public List<Products> getAllProducts() {
-        return productRepository.findAll();
+    public ResponseEntity<List<Products>> getAllProducts() {
+        List<Products> allProducts = productRepository.findAll();
+
+        if (!allProducts.isEmpty()) {
+        return new ResponseEntity<>(allProducts, HttpStatus.OK);
+        } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
